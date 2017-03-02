@@ -23,7 +23,6 @@ class Game extends React.Component {
       }],
       xIsNext: true,
       stepNumber: 0,
-      isAsc: false,
     };
     this.jumpTo = this.jumpTo.bind(this);
   }
@@ -52,12 +51,6 @@ class Game extends React.Component {
       });
     }
 
-  reverse(){
-        this.setState({
-          isAsc: !this.state.isAsc,
-        });
-      }
-
   render() {
       const history = this.state.history;
       const current = history[this.state.stepNumber];
@@ -70,23 +63,6 @@ class Game extends React.Component {
       } else {
         status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
       }
-
-      const moves = history.map((step, move) => {
-      const desc = move ?
-        'Move: ' + ((move%2) ?'X' : 'O') + ' at ' + step.position.toString() :
-        'Game start';
-
-        var styles = (move == this.state.stepNumber) ? bold : normal ;
-
-        return (
-          <li key={move}>
-            <a href="#" style={styles} onClick={() => this.jumpTo(move)}>{move+1}. {desc}</a>
-          </li>
-        );
-      });
-     
-     var asc = moves.slice().reverse();
-     var moveList = this.state.isAsc ? asc : moves ;
      
       return (
       <div className="game">
@@ -101,12 +77,6 @@ class Game extends React.Component {
           </div>
         </div>
         <div className="game-info">
-          <button className="btn btn-success btn-xs reverse" onClick={() => this.reverse() }>
-            Sort moves list
-          </button>
-          <ul>{moveList}</ul>
-        </div>
-        <div>
           <MovesList
             history = {history}
             stepNumber = {this.state.stepNumber}
@@ -139,15 +109,6 @@ function calculateWinner(squares) {
     }
   }
   return null;
-}
-
-var bold = {
-  color: 'green',
-  fontWeight: '700',
-}
-
-var normal = {
-  color: 'green',
 }
 
 module.exports = Game;

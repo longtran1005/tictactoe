@@ -13,10 +13,6 @@ class MovesList extends React.Component {
         });
     }
 
-    handleJunp(step){
-        this.props.jumpTo(step);
-    }
-
     render() {
         const moves = this.props.history.map((step, move) => {
         const desc = move ?

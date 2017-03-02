@@ -9502,8 +9502,7 @@ var Game = function (_React$Component) {
         squares: Array(9).fill(null)
       }],
       xIsNext: true,
-      stepNumber: 0,
-      isAsc: false
+      stepNumber: 0
     };
     _this.jumpTo = _this.jumpTo.bind(_this);
     return _this;
@@ -9537,13 +9536,6 @@ var Game = function (_React$Component) {
       });
     }
   }, {
-    key: "reverse",
-    value: function reverse() {
-      this.setState({
-        isAsc: !this.state.isAsc
-      });
-    }
-  }, {
     key: "render",
     value: function render() {
       var _this2 = this;
@@ -9559,29 +9551,6 @@ var Game = function (_React$Component) {
       } else {
         status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
       }
-
-      var moves = history.map(function (step, move) {
-        var desc = move ? 'Move: ' + (move % 2 ? 'X' : 'O') + ' at ' + step.position.toString() : 'Game start';
-
-        var styles = move == _this2.state.stepNumber ? bold : normal;
-
-        return _react2.default.createElement(
-          "li",
-          { key: move },
-          _react2.default.createElement(
-            "a",
-            { href: "#", style: styles, onClick: function onClick() {
-                return _this2.jumpTo(move);
-              } },
-            move + 1,
-            ". ",
-            desc
-          )
-        );
-      });
-
-      var asc = moves.slice().reverse();
-      var moveList = this.state.isAsc ? asc : moves;
 
       return _react2.default.createElement(
         "div",
@@ -9609,22 +9578,6 @@ var Game = function (_React$Component) {
         _react2.default.createElement(
           "div",
           { className: "game-info" },
-          _react2.default.createElement(
-            "button",
-            { className: "btn btn-success btn-xs reverse", onClick: function onClick() {
-                return _this2.reverse();
-              } },
-            "Sort moves list"
-          ),
-          _react2.default.createElement(
-            "ul",
-            null,
-            moveList
-          )
-        ),
-        _react2.default.createElement(
-          "div",
-          null,
           _react2.default.createElement(_MovesList2.default, {
             history: history,
             stepNumber: this.state.stepNumber,
@@ -9656,15 +9609,6 @@ function calculateWinner(squares) {
   }
   return null;
 }
-
-var bold = {
-  color: 'green',
-  fontWeight: '700'
-};
-
-var normal = {
-  color: 'green'
-};
 
 module.exports = Game;
 
@@ -9838,11 +9782,6 @@ var MovesList = function (_React$Component) {
             this.setState({
                 isAsc: !this.state.isAsc
             });
-        }
-    }, {
-        key: 'handleJunp',
-        value: function handleJunp(step) {
-            this.props.jumpTo(step);
         }
     }, {
         key: 'render',
