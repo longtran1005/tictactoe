@@ -1,4 +1,5 @@
 import React from "react";
+import styles from "../styles/styles";
 
 class MovesList extends React.Component {
     constructor() {
@@ -19,11 +20,11 @@ class MovesList extends React.Component {
             'Move: ' + ((move%2) ?'X' : 'O') + ' at ' + step.position.toString() :
             'Game start';
 
-            var styles = (move == this.props.stepNumber) ? bold : normal ;
+            var liStyle = (move == this.props.stepNumber) ? styles.green : styles.lightGreen ;
 
             return (
             <li key={move}>
-                <a href="#" style={styles} onClick={() => this.props.jumpTo(move)}>{move+1}. {desc}</a>
+                <a href="#" style={liStyle} onClick={() => this.props.jumpTo(move)}>{move+1}. {desc}</a>
             </li>
             );
         });
@@ -40,16 +41,6 @@ class MovesList extends React.Component {
             </div>
         );
     }
-
-}
-
-var bold = {
-  color: 'green',
-  fontWeight: '700',
-}
-
-var normal = {
-  color: 'green',
 }
 
 module.exports = MovesList;

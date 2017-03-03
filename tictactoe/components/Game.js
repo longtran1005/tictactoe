@@ -1,8 +1,8 @@
 import React from "react";
 import Board from "./Board";
-import Button from "./Button";
 import MovesList from "./MovesList";
 import Status from "./Status";
+import styles from "../styles/styles";
 
 class Position {
   constructor(i) {
@@ -98,7 +98,6 @@ class Game extends React.Component {
           />
         </div>
       </div>
-     
     );
   }
 }

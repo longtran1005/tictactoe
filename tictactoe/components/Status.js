@@ -24,5 +24,5 @@ class Status extends React.Component {
     }
   }
 }
-var bold = {fontWeight: '700', };
+
 module.exports = Status;
