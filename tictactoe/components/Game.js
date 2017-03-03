@@ -2,6 +2,7 @@ import React from "react";
 import Board from "./Board";
 import Button from "./Button";
 import MovesList from "./MovesList";
+import Status from "./Status";
 
 class Position {
   constructor(i) {
@@ -10,7 +11,7 @@ class Position {
   }
 
   toString() {
-    return `( ${this.row}, ${this.col})`;
+    return `(${this.row},${this.col})`;
   }
 }
 
@@ -51,6 +52,16 @@ class Game extends React.Component {
       });
     }
 
+  resetGame() {
+      this.setState({
+        history: [{
+          squares: Array(9).fill(null),
+        }],
+        xIsNext: true,
+        stepNumber: 0,
+      });
+    }
+
   render() {
       const history = this.state.history;
       const current = history[this.state.stepNumber];
@@ -61,19 +72,22 @@ class Game extends React.Component {
       if (winner) {
         status = 'Winner: ' + winner.player;
       } else {
-        status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
+        status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O' );
       }
      
       return (
       <div className="game">
         <div className="wrapper">
-          <div className="status">{status}</div>
+          <div className="status">
+            <Status winner={(winner)? winner.player : null} nextPlayer={this.state.xIsNext ? 'X' :'O'} />
+          </div>
           <div className="game-board">
             <Board 
             winnerLine = {winnerLine}
             squares={current.squares}
             onClick={(i) => this.handleClick(i)}
             />
+            <button className="btn btn-warning btn-xs" onClick = {()=>this.resetGame()}> Reset </button> 
           </div>
         </div>
         <div className="game-info">

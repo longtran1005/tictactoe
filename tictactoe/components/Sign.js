@@ -9,10 +9,12 @@ class Sign extends React.Component {
 
 var green = {
   color: 'green',
+  fontWeight: '700',
 }
 
 var red = {
   color: 'red',
+  fontWeight: '700',
 }
 
 module.exports = Sign;
