@@ -1,3 +1,5 @@
+@import "./animate.css";
+
 body {
 	  font: 14px "Century Gothic", Futura, sans-serif;
 	  margin: 20px;
@@ -61,3 +63,29 @@ body {
 	.reverse {
 		margin-left: 20px;
 	}
+
+/*.example-enter {
+    animation: 0.8s flipInX ease;
+}
+
+.example-leave {
+    animation: 0.5s flipOutX ease;
+}*/
+
+.example-enter {
+  opacity: 0.01;
+}
+
+.example-enter.example-enter-active {
+  opacity: 1;
+  transition: opacity 500ms ease-in;
+}
+
+.example-leave {
+  opacity: 1;
+}
+
+.example-leave.example-leave-active {
+  opacity: 0.01;
+  transition: opacity 300ms ease-in;
+}

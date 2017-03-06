@@ -1,5 +1,6 @@
 import React from "react";
 import styles from "../styles/styles";
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group' ;
 
 class MovesList extends React.Component {
     constructor() {
@@ -37,7 +38,12 @@ class MovesList extends React.Component {
                 <button className="btn btn-success btn-xs reverse" onClick={() => this.reverse() }>
                     Sort moves list
                 </button>
+                <ReactCSSTransitionGroup
+                transitionName="example"
+                transitionEnterTimeout={500}
+                transitionLeaveTimeout={300}>
                 <ul>{moveList}</ul>
+                </ReactCSSTransitionGroup>
             </div>
         );
     }
