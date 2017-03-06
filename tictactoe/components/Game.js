@@ -67,19 +67,12 @@ class Game extends React.Component {
       const current = history[this.state.stepNumber];
       const winner = calculateWinner(current.squares);
       var winnerLine = (winner) ? winner.line : null ;
-
-      let status;
-      if (winner) {
-        status = 'Winner: ' + winner.player;
-      } else {
-        status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O' );
-      }
      
       return (
       <div className="game">
         <div className="wrapper">
           <div className="status">
-            <Status winner={(winner)? winner.player : null} nextPlayer={this.state.xIsNext ? 'X' :'O'} />
+            <Status endGame = {(this.state.stepNumber === 9)} winner={(winner)? winner.player : null} nextPlayer={this.state.xIsNext ? 'X' :'O'} />
           </div>
           <div className="game-board">
             <Board 

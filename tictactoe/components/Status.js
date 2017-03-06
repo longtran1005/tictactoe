@@ -20,7 +20,11 @@ class Status extends React.Component {
     if (this.props.winner){
          return <div> Winner: <Sign player={this.props.winner} /> </div>;
     } else {
-         return <div> Next player: <Sign player={this.props.nextPlayer} /> </div>;
+        if(this.props.endGame){
+          return <div> It's a <b>tie</b> ! </div>;
+        } else {
+          return <div> Next player: <Sign player={this.props.nextPlayer} /> </div>;
+        }
     }
   }
 }

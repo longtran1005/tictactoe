@@ -9637,13 +9637,6 @@ var Game = function (_React$Component) {
       var winner = calculateWinner(current.squares);
       var winnerLine = winner ? winner.line : null;
 
-      var status = void 0;
-      if (winner) {
-        status = 'Winner: ' + winner.player;
-      } else {
-        status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
-      }
-
       return _react2.default.createElement(
         "div",
         { className: "game" },
@@ -9653,7 +9646,7 @@ var Game = function (_React$Component) {
           _react2.default.createElement(
             "div",
             { className: "status" },
-            _react2.default.createElement(_Status2.default, { winner: winner ? winner.player : null, nextPlayer: this.state.xIsNext ? 'X' : 'O' })
+            _react2.default.createElement(_Status2.default, { endGame: this.state.stepNumber === 9, winner: winner ? winner.player : null, nextPlayer: this.state.xIsNext ? 'X' : 'O' })
           ),
           _react2.default.createElement(
             "div",
@@ -10005,13 +9998,27 @@ var Status = function (_React$Component) {
           " "
         );
       } else {
-        return _react2.default.createElement(
-          "div",
-          null,
-          " Next player: ",
-          _react2.default.createElement(_Sign2.default, { player: this.props.nextPlayer }),
-          " "
-        );
+        if (this.props.endGame) {
+          return _react2.default.createElement(
+            "div",
+            null,
+            " It's a ",
+            _react2.default.createElement(
+              "b",
+              null,
+              "tie"
+            ),
+            " ! "
+          );
+        } else {
+          return _react2.default.createElement(
+            "div",
+            null,
+            " Next player: ",
+            _react2.default.createElement(_Sign2.default, { player: this.props.nextPlayer }),
+            " "
+          );
+        }
       }
     }
   }]);
@@ -22271,8 +22278,6 @@ var _Game = __webpack_require__(82);
 var _Game2 = _interopRequireDefault(_Game);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-// ========================================
 
 _reactDom2.default.render(_react2.default.createElement(_Game2.default, null), document.getElementById('container'));
 
