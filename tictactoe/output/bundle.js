@@ -9754,7 +9754,7 @@ var Board = function (_React$Component) {
       var _this2 = this;
 
       var isWinner = this.props.winnerLine ? this.props.winnerLine.indexOf(i) !== -1 : false;
-      return _react2.default.createElement(_Square2.default, { isWinner: isWinner, value: this.props.squares[i], onClick: function onClick() {
+      return _react2.default.createElement(_Square2.default, { key: i, isWinner: isWinner, value: this.props.squares[i], onClick: function onClick() {
           return _this2.props.onClick(i);
         } });
     }
@@ -9769,7 +9769,7 @@ var Board = function (_React$Component) {
         }
         rows.push(_react2.default.createElement(
           "div",
-          { className: "board-row" },
+          { key: i, className: "board-row" },
           squares
         ));
         squares = [];
