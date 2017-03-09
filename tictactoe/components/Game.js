@@ -4,10 +4,11 @@ import MovesList from "./MovesList";
 import Status from "./Status";
 import styles from "../styles/styles";
 
+const size =6;
 class Position {
   constructor(i) {
-    this.row = Math.floor(i / 3) + 1;
-    this.col = (i % 3) + 1;
+    this.row = Math.floor(i / size) + 1;
+    this.col = (i % size) + 1;
   }
 
   toString() {
@@ -20,7 +21,7 @@ class Game extends React.Component {
     super();
     this.state = {
       history: [{
-        squares: Array(9).fill(null)
+        squares: Array(size*size).fill(null)
       }],
       xIsNext: true,
       stepNumber: 0,
@@ -55,7 +56,7 @@ class Game extends React.Component {
   resetGame() {
       this.setState({
         history: [{
-          squares: Array(9).fill(null),
+          squares: Array(size*size).fill(null),
         }],
         xIsNext: true,
         stepNumber: 0,
@@ -72,7 +73,7 @@ class Game extends React.Component {
       <div className="game">
         <div className="wrapper">
           <div className="status">
-            <Status endGame = {(this.state.stepNumber === 9)} winner={(winner)? winner.player : null} nextPlayer={this.state.xIsNext ? 'X' :'O'} />
+            <Status endGame = {(this.state.stepNumber === size*size)} winner={(winner)? winner.player : null} nextPlayer={this.state.xIsNext ? 'X' :'O'} />
           </div>
           <div className="game-board">
             <Board 
@@ -95,20 +96,59 @@ class Game extends React.Component {
   }
 }
 
+var rule=[];
+
+for (var i=0;i<size*size;i++){
+  if (i%size<size-4){
+    var singleLine=[];
+    for(var j=i;j<i+5;j++){
+      singleLine.push(j);
+    }
+    rule.push(singleLine);
+  }    
+  
+  if(i+4*size<size*size){
+    var singleLine=[];
+    for(var j=i;j<i+4*size+1;j=j+6){
+      singleLine.push(j);
+    }
+    rule.push(singleLine);
+  }
+
+  if ((i%size<size-4) && (i+4*(size+1)<size*size)){
+    var singleLine=[];
+    for(var j=i;j<i+4*(size+1)+1;j=j+7){
+      singleLine.push(j);
+    }
+    rule.push(singleLine);
+  }
+
+  if((i%size>=4) && (i+4*(size-1)<size*size) ){
+    var singleLine=[];
+    for(var j=i;j<i+4*(size-1)+1;j=j+5){
+      singleLine.push(j);
+    }
+    rule.push(singleLine);
+  }
+}
+
+const lines = rule;
+
+// const lines6x6 = [
+  //   [0,1,2,3,4], [1,2,3,4,5], [6,7,8,9,10], [7,8,9,10,11], [12,13,14,15,16], [13,14,15,16,17],
+  //   [18,19,20,21,22], [19,20,21,22,23], [24,25,26,27,28], [25,26,27,28,29], [30,31,32,33,34], [31,32,33,34,35],
+
+  //   [0,6,12,18,24], [6,12,18,24,30], [1,7,13,19,25], [7,13,19,25,31], [2,8,14,20,26], [8,14,20,26,32],
+  //   [3,9,15,21,27], [9,15,21,27,33], [4,10,16,22,28], [10,16,22,28,34], [5,11,17,23,29], [11,17,23,29,35],
+
+  //   [0,7,14,21,28], [1,8,15,22,29], [6,13,20,27,34], [7,14,21,28,35], 
+  //   [5,10,15,20,25], [4,9,14,19,24], [11,16,21,26,31], [10,15,20,25,30], 
+  // ];
+  
 function calculateWinner(squares) {
-  const lines = [
-    [0, 1, 2],
-    [3, 4, 5],
-    [6, 7, 8],
-    [0, 3, 6],
-    [1, 4, 7],
-    [2, 5, 8],
-    [0, 4, 8],
-    [2, 4, 6],
-  ];
   for (let i = 0; i < lines.length; i++) {
-    const [a, b, c] = lines[i];
-    if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
+    const [a, b, c, d, e] = lines[i];
+    if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c] && squares[a] === squares[d] && squares[a] === squares[e]) {
       return { player: squares[a],
                line: lines[i] 
              };

@@ -9552,12 +9552,14 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+var size = 6;
+
 var Position = function () {
   function Position(i) {
     _classCallCheck(this, Position);
 
-    this.row = Math.floor(i / 3) + 1;
-    this.col = i % 3 + 1;
+    this.row = Math.floor(i / size) + 1;
+    this.col = i % size + 1;
   }
 
   _createClass(Position, [{
@@ -9580,7 +9582,7 @@ var Game = function (_React$Component) {
 
     _this.state = {
       history: [{
-        squares: Array(9).fill(null)
+        squares: Array(size * size).fill(null)
       }],
       xIsNext: true,
       stepNumber: 0
@@ -9621,7 +9623,7 @@ var Game = function (_React$Component) {
     value: function resetGame() {
       this.setState({
         history: [{
-          squares: Array(9).fill(null)
+          squares: Array(size * size).fill(null)
         }],
         xIsNext: true,
         stepNumber: 0
@@ -9646,7 +9648,7 @@ var Game = function (_React$Component) {
           _react2.default.createElement(
             "div",
             { className: "status" },
-            _react2.default.createElement(_Status2.default, { endGame: this.state.stepNumber === 9, winner: winner ? winner.player : null, nextPlayer: this.state.xIsNext ? 'X' : 'O' })
+            _react2.default.createElement(_Status2.default, { endGame: this.state.stepNumber === size * size, winner: winner ? winner.player : null, nextPlayer: this.state.xIsNext ? 'X' : 'O' })
           ),
           _react2.default.createElement(
             "div",
@@ -9685,17 +9687,67 @@ var Game = function (_React$Component) {
   return Game;
 }(_react2.default.Component);
 
-function calculateWinner(squares) {
-  var lines = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]];
-  for (var i = 0; i < lines.length; i++) {
-    var _lines$i = _slicedToArray(lines[i], 3),
-        a = _lines$i[0],
-        b = _lines$i[1],
-        c = _lines$i[2];
+var rule = [];
 
-    if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
+for (var i = 0; i < size * size; i++) {
+  if (i % size < size - 4) {
+    var singleLine = [];
+    for (var j = i; j < i + 5; j++) {
+      singleLine.push(j);
+    }
+    rule.push(singleLine);
+  }
+
+  if (i + 4 * size < size * size) {
+    var singleLine = [];
+    for (var j = i; j < i + 4 * size + 1; j = j + 6) {
+      singleLine.push(j);
+    }
+    rule.push(singleLine);
+  }
+
+  if (i % size < size - 4 && i + 4 * (size + 1) < size * size) {
+    var singleLine = [];
+    for (var j = i; j < i + 4 * (size + 1) + 1; j = j + 7) {
+      singleLine.push(j);
+    }
+    rule.push(singleLine);
+  }
+
+  if (i % size >= 4 && i + 4 * (size - 1) < size * size) {
+    var singleLine = [];
+    for (var j = i; j < i + 4 * (size - 1) + 1; j = j + 5) {
+      singleLine.push(j);
+    }
+    rule.push(singleLine);
+  }
+}
+
+var lines = rule;
+
+// const lines6x6 = [
+//   [0,1,2,3,4], [1,2,3,4,5], [6,7,8,9,10], [7,8,9,10,11], [12,13,14,15,16], [13,14,15,16,17],
+//   [18,19,20,21,22], [19,20,21,22,23], [24,25,26,27,28], [25,26,27,28,29], [30,31,32,33,34], [31,32,33,34,35],
+
+//   [0,6,12,18,24], [6,12,18,24,30], [1,7,13,19,25], [7,13,19,25,31], [2,8,14,20,26], [8,14,20,26,32],
+//   [3,9,15,21,27], [9,15,21,27,33], [4,10,16,22,28], [10,16,22,28,34], [5,11,17,23,29], [11,17,23,29,35],
+
+//   [0,7,14,21,28], [1,8,15,22,29], [6,13,20,27,34], [7,14,21,28,35], 
+//   [5,10,15,20,25], [4,9,14,19,24], [11,16,21,26,31], [10,15,20,25,30], 
+// ];
+
+function calculateWinner(squares) {
+  for (var _i = 0; _i < lines.length; _i++) {
+    var _lines$_i = _slicedToArray(lines[_i], 5),
+        a = _lines$_i[0],
+        b = _lines$_i[1],
+        c = _lines$_i[2],
+        d = _lines$_i[3],
+        e = _lines$_i[4];
+
+    if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c] && squares[a] === squares[d] && squares[a] === squares[e]) {
       return { player: squares[a],
-        line: lines[i]
+        line: lines[_i]
       };
     }
   }
@@ -9761,10 +9813,11 @@ var Board = function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
+      var size = 6;
       var rows = [];
       var squares = [];
-      for (var i = 0; i < 3; i++) {
-        for (var j = 3 * i; j < 3 * i + 3; j++) {
+      for (var i = 0; i < size; i++) {
+        for (var j = size * i; j < size * i + size; j++) {
           squares.push(this.renderSquare(j));
         }
         rows.push(_react2.default.createElement(
