@@ -9520,8 +9520,6 @@ module.exports = ReactPropTypesSecret;
 "use strict";
 
 
-var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
-
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = __webpack_require__(14);
@@ -9552,7 +9550,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var size = 6;
+var size = 20;
 
 var Position = function () {
   function Position(i) {
@@ -9700,7 +9698,7 @@ for (var i = 0; i < size * size; i++) {
 
   if (i + 4 * size < size * size) {
     var singleLine = [];
-    for (var j = i; j < i + 4 * size + 1; j = j + 6) {
+    for (var j = i; j < i + 4 * size + 1; j = j + size) {
       singleLine.push(j);
     }
     rule.push(singleLine);
@@ -9708,7 +9706,7 @@ for (var i = 0; i < size * size; i++) {
 
   if (i % size < size - 4 && i + 4 * (size + 1) < size * size) {
     var singleLine = [];
-    for (var j = i; j < i + 4 * (size + 1) + 1; j = j + 7) {
+    for (var j = i; j < i + 4 * (size + 1) + 1; j = j + size + 1) {
       singleLine.push(j);
     }
     rule.push(singleLine);
@@ -9716,7 +9714,7 @@ for (var i = 0; i < size * size; i++) {
 
   if (i % size >= 4 && i + 4 * (size - 1) < size * size) {
     var singleLine = [];
-    for (var j = i; j < i + 4 * (size - 1) + 1; j = j + 5) {
+    for (var j = i; j < i + 4 * (size - 1) + 1; j = j + size - 1) {
       singleLine.push(j);
     }
     rule.push(singleLine);
@@ -9738,15 +9736,18 @@ var lines = rule;
 
 function calculateWinner(squares) {
   for (var _i = 0; _i < lines.length; _i++) {
-    var _lines$_i = _slicedToArray(lines[_i], 5),
-        a = _lines$_i[0],
-        b = _lines$_i[1],
-        c = _lines$_i[2],
-        d = _lines$_i[3],
-        e = _lines$_i[4];
+    var realLine = lines[_i];
+    var isIdentical = true;
 
-    if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c] && squares[a] === squares[d] && squares[a] === squares[e]) {
-      return { player: squares[a],
+    for (var _j = 1; _j < realLine.length; _j++) {
+      if (squares[realLine[0]] !== squares[realLine[_j]]) {
+        isIdentical = false;
+        break;
+      }
+    }
+
+    if (isIdentical === true && squares[realLine[0]]) {
+      return { player: squares[realLine[0]],
         line: lines[_i]
       };
     }
@@ -9813,7 +9814,7 @@ var Board = function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      var size = 6;
+      var size = 20;
       var rows = [];
       var squares = [];
       for (var i = 0; i < size; i++) {

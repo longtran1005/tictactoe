@@ -7,7 +7,7 @@ class Board extends React.Component {
     return <Square key={i} isWinner={isWinner} value={this.props.squares[i]} onClick={() => this.props.onClick(i)}/>;
   }
   render() {
-    const size =6;
+    const size =20;
     var rows=[];
     let squares=[];
     for (var i=0;i<size;i++){

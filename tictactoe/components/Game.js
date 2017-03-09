@@ -4,7 +4,7 @@ import MovesList from "./MovesList";
 import Status from "./Status";
 import styles from "../styles/styles";
 
-const size =6;
+const size =20;
 class Position {
   constructor(i) {
     this.row = Math.floor(i / size) + 1;
@@ -109,7 +109,7 @@ for (var i=0;i<size*size;i++){
   
   if(i+4*size<size*size){
     var singleLine=[];
-    for(var j=i;j<i+4*size+1;j=j+6){
+    for(var j=i;j<i+4*size+1;j=j+size){
       singleLine.push(j);
     }
     rule.push(singleLine);
@@ -117,7 +117,7 @@ for (var i=0;i<size*size;i++){
 
   if ((i%size<size-4) && (i+4*(size+1)<size*size)){
     var singleLine=[];
-    for(var j=i;j<i+4*(size+1)+1;j=j+7){
+    for(var j=i;j<i+4*(size+1)+1;j=j+size+1){
       singleLine.push(j);
     }
     rule.push(singleLine);
@@ -125,7 +125,7 @@ for (var i=0;i<size*size;i++){
 
   if((i%size>=4) && (i+4*(size-1)<size*size) ){
     var singleLine=[];
-    for(var j=i;j<i+4*(size-1)+1;j=j+5){
+    for(var j=i;j<i+4*(size-1)+1;j=j+size-1){
       singleLine.push(j);
     }
     rule.push(singleLine);
@@ -147,14 +147,26 @@ const lines = rule;
   
 function calculateWinner(squares) {
   for (let i = 0; i < lines.length; i++) {
-    const [a, b, c, d, e] = lines[i];
-    if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c] && squares[a] === squares[d] && squares[a] === squares[e]) {
-      return { player: squares[a],
+    const realLine = lines[i];
+    let isIdentical = true;
+
+    for (let j=1;j<realLine.length;j++){
+      if (squares[realLine[0]] !== squares[realLine[j]]){
+        isIdentical = false;
+        break;
+      }
+    }
+
+      if (isIdentical === true && (squares[realLine[0]])) {
+      return { player: squares[realLine[0]],
                line: lines[i] 
              };
-    }
+      }
+
   }
   return null;
 }
 
 module.exports = Game;
+
+
